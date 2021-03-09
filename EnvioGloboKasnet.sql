@@ -431,9 +431,9 @@ BEGIN
                                       --TRIM(LPAD(x.CODIGOSOCIO, 15, '0'))|| --NUMSER campo de busqueda
                                       CASE PKG_PERSONA.F_OBT_TIPOPERSONA(x.codigopersona)
                                           WHEN 1 THEN
-                                             LPAD(PKG_PERSONANATURAL.F_OBT_NUMERODOCUMENTOID(x.codigopersona), 15, ' ') --NUMSER campo de busqueda
+                                             LPAD(PKG_PERSONANATURAL.F_OBT_NUMERODOCUMENTOID(x.codigopersona), 15, '0') --NUMSER campo de busqueda
                                           WHEN 2 THEN
-                                             LPAD(PKG_PERSONA.F_OBT_NUMERORUC(x.codigopersona), 15, ' ') --NUMSER campo de busqueda
+                                             LPAD(PKG_PERSONA.F_OBT_NUMERORUC(x.codigopersona), 15, '0') --NUMSER campo de busqueda
                                        END ||
                                        RPAD(SUBSTR(PKG_PERSONA.F_OBT_NOMBRECOMPLETOBANCOS(x.codigopersona), 1, 30), 30, ' ') || --NUMABO Nombre Cliente
                                       '000'|| --NROCEN fijo
