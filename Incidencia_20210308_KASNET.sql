@@ -9,25 +9,14 @@ DECLARE
 	
 	vNumerocuota		prestamocuotas.numerocuota%TYPE;
 	vCodSVC				VARCHAR(4) := '3300'; --Codigo del Servicio SVC. Identificador de trama kasnet
-
-	vFechaProceso		DATE;
-	vUsuario			VARCHAR2(30);
 	
 BEGIN
 	FOR i IN 1..array_linebuf.count LOOP
        	linebuf := array_linebuf(i);
-		DBMS_OUTPUT.PUT_LINE(array_linebuf(i));
 
 	   	IF linebuf IS NOT NULL AND SUBSTR(linebuf, 1, 4) = vCodSVC THEN
-			
-            --Mantener fechacarga y usuariocarga. Campos no parseados de trama. SYSDATE y USER
-            SELECT fechacarga, usuariocarga INTO vFechaProceso, vUsuario
-            FROM RECAUDACIONBANCO
-            WHERE REPLACE(TRIM(TRAMA), ' ', '') = REPLACE(TRIM(linebuf), ' ', '');
             
             cRecauda.trama					:= linebuf;
-            cRecauda.fechacarga				:= vFechaProceso;
-            cRecauda.usuariocarga			:= vUsuario;
             cRecauda.codigobanco			:= 5;		-- Codigo Banco en Datosbanco -- ScotiaBank
 
             BEGIN
@@ -133,8 +122,6 @@ BEGIN
 
                 cRecauda.oficinapago 		:= 0;
 
-                cRecauda.fechaproceso 		:= vFechaProceso;
-                cRecauda.usuarioproceso 	:= vUsuario;
                 BEGIN
                     SELECT MIN(numerocuota)
                     INTO vNumerocuota
@@ -200,9 +187,7 @@ BEGIN
 
                 BEGIN
                     UPDATE recaudacionbanco 
-                    SET fechacarga = cRecauda.fechacarga,
-                        usuariocarga = cRecauda.usuariocarga,
-                        codigosocio = cRecauda.codigosocio,
+                    SET codigosocio = cRecauda.codigosocio,
                         nombrecliente = cRecauda.nombrecliente,
                         referencias = cRecauda.referencias,
                         importeorigen = cRecauda.importeorigen,
@@ -226,8 +211,6 @@ BEGIN
                         reajuste = cRecauda.reajuste,
                         portes = cRecauda.portes,
                         segurointeres = cRecauda.segurointeres,
-                        fechaproceso = cRecauda.fechaproceso,
-                        usuarioproceso = cRecauda.usuarioproceso,
                         trama = cRecauda.trama,
                         fechaenvio = cRecauda.fechaenvio,
                         debitoautomatico = cRecauda.debitoautomatico,
