@@ -9,12 +9,18 @@ DECLARE
 	vNumerocuota		prestamocuotas.numerocuota%TYPE;
 	vCodSVC				VARCHAR(4) := '3300'; --Codigo del Servicio SVC
 
-	vFechaProceso		DATE:= SYSDATE;
-	vUsuario			VARCHAR2(30) := USER;
+	vFechaProceso		DATE;
+	vUsuario			VARCHAR2(30);
 BEGIN
 	FOR i IN 1..array_linebuf.count LOOP
        	linebuf := array_linebuf(i);
-		DBMS_OUTPUT.PUT_LINE(array_linebuf(i));
+		--DBMS_OUTPUT.PUT_LINE(array_linebuf(i));
+        SELECT fechacarga, usuariocarga INTO vFechaProceso, vUsuario
+        FROM RECAUDACIONBANCO
+        WHERE REPLACE(TRIM(TRAMA), ' ', '') = REPLACE(TRIM(linebuf), ' ', '');
+
+        DELETE FROM RECAUDACIONBANCO
+        WHERE REPLACE(TRIM(TRAMA), ' ', '') = REPLACE(TRIM(linebuf), ' ', '');
 
 	   	IF linebuf IS NOT NULL AND SUBSTR(linebuf, 1, 4) = vCodSVC THEN
 			SELECT COUNT(*) 
@@ -23,7 +29,6 @@ BEGIN
 			WHERE REPLACE(TRIM(TRAMA), ' ', '') = REPLACE(TRIM(linebuf), ' ', '');
 
 			IF vValidaTrama = 0 THEN
-
 				cRecauda.trama					:= linebuf;
 				cRecauda.fechacarga				:= vFechaProceso;
 				cRecauda.usuariocarga			:= vUsuario;
@@ -44,10 +49,10 @@ BEGIN
 					cRecauda.tipopago			:= SUBSTR(linebuf, 17, 3);
 
 					SELECT b.CIP, b.nombrecompleto INTO cRecauda.codigosocio, cRecauda.nombrecliente
-					FROM PRESTAMO a,PERSONA b
-					WHERE a.PERIODOSOLICITUD=cRecauda.periodosolicitud
-						AND a.NUMEROSOLICITUD=cRecauda.numerosolicitud
-						AND b.CODIGOPERSONA=a.CODIGOPERSONA
+					FROM PRESTAMO a, PERSONA b
+					WHERE a.PERIODOSOLICITUD = cRecauda.periodosolicitud
+						AND a.NUMEROSOLICITUD = cRecauda.numerosolicitud
+						AND b.CODIGOPERSONA = a.CODIGOPERSONA
 						AND ROWNUM = 1;
 
 					--FECFAC (YYYYMMDD)
