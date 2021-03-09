@@ -1,20 +1,20 @@
 --Corregir 3 tramas mal parseadas por PKG_RECAUDACIONBANCO.P_GEN_CARGAGLOBOKAS
 DECLARE
-	TYPE array_linebuf_type IS varray(3) OF VARCHAR2(1000);
-	array_linebuf array_linebuf_type := array_linebuf_type(	'330020202118384-ATR202103061000000044885150005210210210305000000000069700R CT0089700201L27ADMIN   2021030610343733V 000000000000000',
-															'330020202118385-ACT202103051000000073467928006210310210304000000000062500R CT0089175641L27ADMIN   2021030509392133V 000000000000000',
-															'330020210823191-ACT202103021000000040667119001210312210301000000000010100R CT0089645201L27ADMIN   2021030215504733V 000000000000000');
-	linebuf				VARCHAR2(1000);
-	cRecauda			recaudacionbanco%ROWTYPE;
-	
-	vNumerocuota		prestamocuotas.numerocuota%TYPE;
-	vCodSVC				VARCHAR(4) := '3300'; --Codigo del Servicio SVC. Identificador de trama kasnet
-	
+    TYPE array_linebuf_type IS varray(3) OF VARCHAR2(1000);
+    array_linebuf array_linebuf_type := array_linebuf_type(	'330020202118384-ATR202103061000000044885150005210210210305000000000069700R CT0089700201L27ADMIN   2021030610343733V 000000000000000',
+                                                            '330020202118385-ACT202103051000000073467928006210310210304000000000062500R CT0089175641L27ADMIN   2021030509392133V 000000000000000',
+                                                            '330020210823191-ACT202103021000000040667119001210312210301000000000010100R CT0089645201L27ADMIN   2021030215504733V 000000000000000');
+    linebuf				VARCHAR2(1000);
+    cRecauda			recaudacionbanco%ROWTYPE;
+    
+    vNumerocuota		prestamocuotas.numerocuota%TYPE;
+    vCodSVC				VARCHAR(4) := '3300'; --Codigo del Servicio SVC. Identificador de trama kasnet
+    
 BEGIN
-	FOR i IN 1..array_linebuf.count LOOP
-       	linebuf := array_linebuf(i);
+    FOR i IN 1..array_linebuf.count LOOP
+        linebuf := array_linebuf(i);
 
-	   	IF linebuf IS NOT NULL AND SUBSTR(linebuf, 1, 4) = vCodSVC THEN
+        IF linebuf IS NOT NULL AND SUBSTR(linebuf, 1, 4) = vCodSVC THEN
             
             cRecauda.trama					:= linebuf;
             cRecauda.codigobanco			:= 5;		-- Codigo Banco en Datosbanco -- ScotiaBank
@@ -221,6 +221,6 @@ BEGIN
                     COMMIT; 
                 END;
             END;
-		END IF;
-   	END LOOP;
+        END IF;
+    END LOOP;
 END;
