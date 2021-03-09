@@ -146,17 +146,17 @@ BEGIN
                                                                                         cRecauda.periodosolicitud, 
                                                                                         vNumerocuota);
 
-                cRecauda.interes            := pkg_prestamocuotas.F_OBT_INTERES (   cRecauda.numerosolicitud,
+                cRecauda.interes            := pkg_prestamocuotas.F_OBT_INTERES (       cRecauda.numerosolicitud,
                                                                                         cRecauda.periodosolicitud, 
                                                                                         vNumerocuota );
 
                 cRecauda.mora               := 0;
 
-                cRecauda.reajuste           := pkg_prestamocuotas.F_OBT_REAJUSTE (  cRecauda.numerosolicitud, 
+                cRecauda.reajuste           := pkg_prestamocuotas.F_OBT_REAJUSTE (      cRecauda.numerosolicitud, 
                                                                                         cRecauda.periodosolicitud, 
                                                                                         vNumerocuota);
 
-                cRecauda.portes             := pkg_prestamocuotas.F_OBT_PORTES (  cRecauda.numerosolicitud, 
+                cRecauda.portes             := pkg_prestamocuotas.F_OBT_PORTES (        cRecauda.numerosolicitud, 
                                                                                         cRecauda.periodosolicitud, 
                                                                                         vNumerocuota);
 
