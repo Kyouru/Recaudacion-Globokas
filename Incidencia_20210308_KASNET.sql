@@ -73,8 +73,7 @@ BEGIN
 
                 --IMPTOT
                 --SUBSTR(linebuf, 62, 12)
-                cRecauda.importeorigen      := TO_NUMBER(SUBSTR(linebuf, 62, 12)) / 100;
-                cRecauda.importedepositado  := cRecauda.importeorigen;
+                cRecauda.importedepositado  := TO_NUMBER(SUBSTR(linebuf, 62, 12)) / 100;
                 
                 --TIPODOC1 Siempre R
                 --SUBSTR(linebuf, 74, 2)
@@ -211,7 +210,6 @@ BEGIN
                         reajuste = cRecauda.reajuste,
                         portes = cRecauda.portes,
                         segurointeres = cRecauda.segurointeres,
-                        trama = cRecauda.trama,
                         fechaenvio = cRecauda.fechaenvio,
                         debitoautomatico = cRecauda.debitoautomatico,
                         cuotacronograma = cRecauda.cuotacronograma,
